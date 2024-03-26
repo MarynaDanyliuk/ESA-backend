@@ -1,0 +1,28 @@
+{
+  "name": "esa-backend",
+  "version": "1.0.0",
+  "description": "node server",
+  "main": "index.js",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./index.js",
+    "lint": "eslint **/*.js",
+    "lint:fix": "eslint --fix **/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.9.13",
+    "nodemon": "^3.1.0"
+  }
+}
