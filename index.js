@@ -19,6 +19,9 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 
+const home = require("./routes/home");
+const submit = require("./routes/submit");
+
 require("dotenv").config();
 
 const { META_PASSWORD, EMAIL_FROM } = process.env;
@@ -94,6 +97,10 @@ async function sendEmail(formData) {
 
   await transporter.sendMail(mailOptions);
 }
+
+// Routes
+app.use("/home", home);
+// app.use("/submitForm", submit);
 
 // Маршрут для обробки POST-запитів
 app.post("/submitForm", async (req, res) => {
