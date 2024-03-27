@@ -1,46 +1,26 @@
-// // Import packages
-// const express = require("express");
-// const home = require("./routes/home");
-
-// // Middlewares
-// const app = express();
-// app.use(express.json());
-
-// // Routes
-// app.use("/home", home);
-
-// // connection
-// const port = process.env.PORT || 9000;
-// app.listen(port, () => console.log(`Listening to port ${port}`));
-
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const bodyParser = require("body-parser");
 
-const home = require("./routes/home");
-const submit = require("./routes/submit");
-
 require("dotenv").config();
 
-const { META_PASSWORD, EMAIL_FROM } = process.env;
+const home = require("./routes/home");
+const submitRouter = require("./routes/submit");
+// const submit = require("./routes/submit");
 
-console.log(META_PASSWORD, EMAIL_FROM);
+const { META_PASSWORD, EMAIL_FROM, EMAIL_TO } = process.env;
+
+// console.log(META_PASSWORD, EMAIL_FROM, EMAIL_TO);
 
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
-// const corsOptions = {
-//   origin: 'http://localhost:61224',
-// };
-
-// app.use(cors(corsOptions));
-
 app.use(logger(formatsLogger));
 app.use(cors());
-// app.options('*', cors());
+
 app.use(express.json());
 app.use(express.static("public"));
 const PORT = process.env.PORT || 9000;
@@ -79,7 +59,7 @@ async function sendEmail(formData) {
 
   const mailOptions = {
     from: EMAIL_FROM,
-    to: "manfimova@gmail.com",
+    to: EMAIL_TO,
     subject: `Нова форма з сайту ESA від ${name}`,
     text: `
       Країна: ${country}
@@ -100,7 +80,7 @@ async function sendEmail(formData) {
 
 // Routes
 app.use("/home", home);
-// app.use("/submitForm", submit);
+app.use("/submitForm", submitRouter);
 
 // Маршрут для обробки POST-запитів
 app.post("/submitForm", async (req, res) => {
@@ -120,7 +100,32 @@ app.post("/submitForm", async (req, res) => {
   }
 });
 
+app.use((req, res) => {
+  res.status(404).json({ message: "Not found" });
+});
+
+app.use((err, req, res, next) => {
+  const { status = 500, message = "Server error" } = err;
+  res.status(status).json({ message });
+});
+
 // Сервер слухає запити
 app.listen(PORT, () => {
   console.log(`Сервер запущено на порті ${PORT}`);
 });
+
+// ___________________________________
+// // Import packages
+// const express = require("express");
+// const home = require("./routes/home");
+
+// // Middlewares
+// const app = express();
+// app.use(express.json());
+
+// // Routes
+// app.use("/home", home);
+
+// // connection
+// const port = process.env.PORT || 9000;
+// app.listen(port, () => console.log(`Listening to port ${port}`));
