@@ -7,8 +7,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 
 const home = require("./routes/home");
-const submitRouter = require("./routes/submit");
-// const submit = require("./routes/submit");
+// const submitRouter = require("./routes/submit");
 
 const { META_PASSWORD, EMAIL_FROM, EMAIL_TO } = process.env;
 
@@ -80,7 +79,7 @@ async function sendEmail(formData) {
 
 // Routes
 app.use("/home", home);
-app.use("/submitForm", submitRouter);
+// app.use("/submitForm", submitRouter);
 
 // Маршрут для обробки POST-запитів
 app.post("/submitForm", async (req, res) => {
