@@ -11,7 +11,7 @@ const home = require("./routes/home");
 
 const { META_PASSWORD, EMAIL_FROM, EMAIL_TO } = process.env;
 
-// console.log(META_PASSWORD, EMAIL_FROM, EMAIL_TO);
+console.log(META_PASSWORD, EMAIL_FROM, EMAIL_TO);
 
 const app = express();
 
@@ -58,7 +58,7 @@ async function sendEmail(formData) {
 
   const mailOptions = {
     from: EMAIL_FROM,
-    to: EMAIL_TO,
+    to: "grigoris@ukr.net",
     subject: `Нова форма з сайту ESA від ${name}`,
     text: `
       Країна: ${country}
